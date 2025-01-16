@@ -1,6 +1,7 @@
+--[[
 if not lib.checkDependency('ox_core', '0.21.3', true) then return end
 
-local Ox = require '@ox_core.lib.init' --[[@as OxServer]]
+local Ox = require '@ox_core.lib.init' --[[@as OxServer
 
 local Inventory = require 'modules.inventory.server'
 
@@ -38,7 +39,7 @@ function server.buyLicense(inv, license)
 
 	if player.getLicense(license.name) then
 		return false, 'already_have'
-	elseif Inventory.GetItemCount(inv, 'money') < license.price then
+	elseif Inventory.GetItem(inv, 'money', false, true) < license.price then
 		return false, 'can_not_afford'
 	end
 
@@ -61,3 +62,4 @@ end
 function server.getOwnedVehicleId(entityId)
     return Ox.GetVehicle(entityId)?.id
 end
+]]

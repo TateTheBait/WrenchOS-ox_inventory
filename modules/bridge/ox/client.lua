@@ -1,11 +1,12 @@
-if not lib.checkDependency('ox_core', '0.21.3', true) then return end
+--[[if not lib.checkDependency('ox_core', '0.21.3', true) then return end
 
-local Ox = require '@ox_core.lib.init' --[[@as OxClient]]
+local Ox = require '@ox_core.lib.init' --[[@as OxClient
 local player = Ox.GetPlayer()
 
 RegisterNetEvent('ox:playerLogout', client.onLogout)
 
 RegisterNetEvent('ox:setGroup', function(name, grade)
+    print(name, grade)
     PlayerData.groups[name] = grade
     OnPlayerData('groups')
 end)
@@ -28,3 +29,4 @@ function client.setPlayerStatus(values)
         player.addStatus(name, value)
     end
 end
+]]

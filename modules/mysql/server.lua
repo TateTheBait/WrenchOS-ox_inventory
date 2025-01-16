@@ -16,8 +16,12 @@ local Query = {
 
 Citizen.CreateThreadNow(function()
     local playerTable, playerColumn, vehicleTable, vehicleColumn
-
-    if shared.framework == 'ox' then
+    if shared.framework == "WrenchOS" then
+        playerTable = 'wrenchaccounts'
+        playerColumn = 'charid'
+        vehicleTable = 'vehicles'
+        vehicleColumn = 'id'
+    elseif shared.framework == 'ox' then
         playerTable = 'character_inventory'
         playerColumn = 'charid'
         vehicleTable = 'vehicles'
@@ -27,18 +31,16 @@ Citizen.CreateThreadNow(function()
         playerColumn = 'identifier'
         vehicleTable = 'owned_vehicles'
         vehicleColumn = 'plate'
+    elseif shared.framework == 'qb' then
+        playerTable = 'players'
+        playerColumn = 'citizenid'
+        vehicleTable = 'player_vehicles'
+        vehicleColumn = 'plate'
     elseif shared.framework == 'nd' then
         playerTable = 'nd_characters'
         playerColumn = 'charid'
         vehicleTable = 'nd_vehicles'
         vehicleColumn = 'id'
-    elseif shared.framework == 'qbx' then
-        playerTable = 'players'
-        playerColumn = 'citizenid'
-        vehicleTable = 'player_vehicles'
-        vehicleColumn = 'id'
-    else
-        return
     end
 
     for k, v in pairs(Query) do
@@ -194,7 +196,9 @@ function db.saveInventories(players, trunks, gloveboxes, stashes, total)
         pending += 1
 
         Citizen.CreateThreadNow(function()
+            
             local resp = safeQuery(MySQL.prepare.await, Query.UPDATE_PLAYER, players)
+            
             pending -= 1
 
             if resp then
