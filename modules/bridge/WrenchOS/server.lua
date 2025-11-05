@@ -31,9 +31,9 @@ function server.syncInventory(inv)
     if accounts then
         local player = exports.WrenchOS:getPlayer(inv.id)
         if player.cash < accounts.money then
-			exports.WrenchOS:addMoney(inv.id, "cash", accounts.money-player.cash)
+			exports.WrenchOS:addMoney(inv.id, "cash", math.min(accounts.money-player.cash, 2147483647))
 		elseif player.cash > accounts.money then
-			exports.WrenchOS:withdrawMoney(inv.id, "cash", player.cash-accounts.money)
+			exports.WrenchOS:withdrawMoney(inv.id, "cash", math.min(player.cash-accounts.money, 2147483647))
 		end
     end
 end
